@@ -13,6 +13,8 @@
 *A mission-critical, military-grade Cyber Operating System for modern Security Operations Centers (SOC) and enterprise CISOs.*
 
 [Overview](#-overview) •
+[Prototype Showcase](#-prototype-showcase) •
+[Operational Workflow](#-operational-workflow) •
 [Key Pillars](#-key-pillars) •
 [Platform Views](#-platform-views) •
 [Architecture](#-architecture--tech-stack) •
@@ -26,13 +28,125 @@
 
 ## 🛰️ Overview
 
-**CYGUIN** is an enterprise-grade cybersecurity decision intelligence platform designed to eliminate SOC alert fatigue, accelerate incident response, and proactively model threat scenarios before attackers strike.
+**CYGUIN** is an enterprise-grade cybersecurity decision intelligence platform engineered to eliminate SOC alert fatigue, accelerate incident response, and proactively model threat scenarios before attackers strike.
 
-Drawing inspiration from next-gen defense platforms (Microsoft Defender XDR, CrowdStrike Falcon, Wiz, Palo Alto Cortex, and Google Chronicle), CYGUIN pairs real-time multi-cloud telemetry with:
-- **Interactive Cyber Digital Twins** for instant topology visualization and blast-radius calculation.
-- **Memory Twins** that capture institutional knowledge and historical countermeasure efficacy.
+Drawing inspiration from tier-1 defense platforms (Microsoft Defender XDR, CrowdStrike Falcon, Wiz, Palo Alto Cortex, and Google Chronicle), CYGUIN pairs real-time multi-cloud telemetry with:
+- **Interactive Cyber Digital Twins** for instant topology visualization, packet flow tracing, and blast-radius calculation.
+- **Memory Twins** that capture institutional knowledge, learned threat heuristics, and countermeasure efficacy over time.
 - **Autonomous AI Copilot** delivering verified, confidence-scored containment actions with operational impact guarantees.
 - **War-Gaming Simulation Lab** to safely test remediation actions without risking production downtime.
+
+---
+
+## 📸 Prototype Showcase
+
+Explore key modules of the CYGUIN Cyber Operating System prototype in action:
+
+### 1. Executive Security Dashboard & Threat Velocity
+High-level security posture overview displaying enterprise risk scores, real-time threat velocity trends, MITRE ATT&CK kill-chain progression, and high-priority incident triage.
+
+![Executive Security Dashboard](docs/images/dashboard-view.png)
+
+---
+
+### 2. Interactive Cyber Digital Twin
+Real-time network topology engine modeling relationships between cloud gateways, Kubernetes clusters, databases, and enterprise endpoints with dynamic packet flows and lateral movement blast-radius highlighting.
+
+![Cyber Digital Twin](docs/images/digital-twin-view.png)
+
+---
+
+### 3. Incident Command & Forensic Investigation Center
+Deep forensic analysis workspace mapping incidents directly to MITRE ATT&CK techniques, calculating active blast radius, displaying SLA timers, and providing 1-click containment triggers.
+
+![Incident Command Center](docs/images/incident-center-view.png)
+
+---
+
+### 4. Autonomous AI Decision Copilot
+Context-aware cyber intelligence engine offering natural language security reasoning, automated containment playbook generation, and confidence-scored policy hardening with operational impact guarantees.
+
+![Autonomous AI Copilot](docs/images/ai-copilot-view.png)
+
+---
+
+### 5. "What-If" War-Gaming Simulation Lab
+Predictive adversary emulation and policy testing sandbox. Forecasts risk reduction percentage against operational downtime minutes before executing containment commands on production infrastructure.
+
+![Simulation Lab](docs/images/simulation-lab-view.png)
+
+---
+
+### 6. Memory Twin & Institutional Cyber Knowledge
+Institutional memory graph indexing past attack vectors, organizational response histories, and countermeasure success rates to continuously train defensive instincts.
+
+![Memory Twin](docs/images/memory-twin-view.png)
+
+---
+
+## 🔄 Operational Workflow
+
+CYGUIN implements a continuous **Sense → Model → Simulate → Decide → Contain → Learn** closed-loop decision architecture:
+
+```mermaid
+flowchart TD
+    subgraph INGESTION["1. Telemetry & Attack Surface Ingestion"]
+        T1["Cloud CSPM (AWS / Azure / GCP)"]
+        T2["EDR & Host Telemetry (CrowdStrike / Defender)"]
+        T3["Network Flows & Firewalls (Palo Alto / Fortinet)"]
+        T4["Identity & Access (Okta / Entra ID)"]
+    end
+
+    subgraph TWIN_ENGINE["2. Digital Twin & Graph Synthesis"]
+        GT["Live Graph Topology Synthesis"]
+        BR["Dynamic Blast Radius & Lateral Path Calculator"]
+        MT["Memory Twin: Institutional Breach Heuristics"]
+    end
+
+    subgraph DETECTION["3. Threat Detection & MITRE ATT&CK Classification"]
+        IE["MITRE ATT&CK Tactic & Technique Engine"]
+        SV["Threat Velocity & SLA Urgency Scorer"]
+    end
+
+    subgraph DECISION_COPILOT["4. Autonomous AI Decision Intelligence"]
+        AI["Autonomous AI Copilot Engine"]
+        SIM["Simulation Lab: 'What-If' Zero-Downtime Prover"]
+        PB["Confidence-Scored Playbook Generator"]
+    end
+
+    subgraph MITIGATION["5. Triage, Containment & Remediation"]
+        ACT1["1-Click Automated Containment (Isolation, Cred Revocation)"]
+        ACT2["Zero-Downtime Policy Hardening"]
+        ACT3["Institutional Memory Postmortem Ingestion"]
+    end
+
+    INGESTION --> GT
+    GT --> BR
+    BR --> IE
+    MT -.-> AI
+    IE --> SV
+    SV --> AI
+    AI --> SIM
+    SIM -->|Verified Impact: Zero Downtime| PB
+    PB --> MITIGATION
+    MITIGATION -.->|Feedback Loop| MT
+```
+
+### Detailed Operational Lifecycle
+
+```
+[ Ingest Telemetry ] ──> [ Synthesize Digital Twin ] ──> [ Correlate MITRE Tactics ]
+                                                                   │
+                                                                   ▼
+[ Update Memory Twin ] <── [ Deploy Containment ] <── [ 'What-If' Pre-Flight Sim ]
+```
+
+1. **Telemetry & Attack Surface Ingestion**: Real-time events are continuously ingested across endpoints, multi-cloud platforms, identity providers, and network perimeters.
+2. **Digital Twin Graph Synthesis**: Raw telemetry is mapped into an interactive topology graph, identifying critical pathways, dependencies, and potential lateral movement corridors.
+3. **MITRE ATT&CK Classification**: Threats are automatically categorized into stages of the cyber kill chain (Initial Access, Execution, Lateral Movement, Exfiltration) with real-time SLA countdowns.
+4. **Autonomous AI "What-If" Verification**: Before recommending action, the AI Copilot sends proposed playbooks to the Simulation Lab to verify risk reduction against potential business disruption.
+5. **Verified Containment & Policy Hardening**: SOC engineers execute verified countermeasures (e.g., host isolation, credential revocation, micro-segmentation) with a single click.
+6. **Continuous Institutional Memory Retention**: Outcomes and resolution metrics feed back into the Memory Twin, optimizing future response confidence scores.
 
 ---
 
@@ -53,50 +167,15 @@ Drawing inspiration from next-gen defense platforms (Microsoft Defender XDR, Cro
 
 CYGUIN features 9 integrated mission modules accessible via persistent navigation and hash-based deep linking:
 
-### 1. Executive Security Dashboard (`#dashboard`)
-* High-velocity posture metrics: Enterprise Security Score, Threat Velocity, Active Incident counts, and SLA compliance.
-* Interactive MITRE ATT&CK Kill Chain visualization with live attack progression.
-* High-priority incident queue with direct containment triggers.
-
-### 2. Incident Center (`#incident-center`)
-* In-depth forensic examination workspace with SLA timers and severity tagging.
-* Root-cause diagnostic trees and MITRE tactic/technique cross-referencing.
-* Affected asset impact matrices and 1-click remediation dispatch.
-
-### 3. Cyber Digital Twin (`#digital-twin`)
-* Dynamic SVG network topology canvas with interactive nodes (Gateways, K8s Clusters, Databases, Endpoints).
-* Real-time packet flow animations with highlighted compromised corridors.
-* Instant blast-radius projection and node isolation simulation.
-
-### 4. Memory Twin (`#memory-twin`)
-* Vector-retrievable repository of past breach incidents and postmortem telemetry.
-* Organizational cyber memory analytics comparing current anomalous patterns against historical benchmarks.
-* Efficacy scoring of past defensive playbooks to recommend the highest-probability countermeasures.
-
-### 5. Autonomous AI Copilot (`#ai-copilot`)
-* Conversational AI decision intelligence fine-tuned for SecOps triage.
-* Policy hardening recommendations with estimated risk reduction ($\Delta$) and downtime impact ratings.
-* Automated playbook synthesis with audit-ready operational rationale.
-
-### 6. Simulation Lab (`#simulation-lab`)
-* "What-If" scenario sandbox (e.g., zero-day kernel exploits, credential stuffing, ransomware spreading).
-* Pre-deployment blast-radius containment modeling.
-* Financial, operational downtime, and security tradeoff analysis.
-
-### 7. Asset Discovery & Inventory (`#assets`)
-* Full-spectrum attack surface management (ASM).
-* Real-time device health, IP addressing, OS platforms, and agent status.
-* Vulnerability telemetry and critical CVE density indicators.
-
-### 8. Executive Reports & Audits (`#reports`)
-* Multi-framework compliance reporting (SOC 2 Type II, ISO 27001, NIST CSF, HIPAA).
-* CISO-ready risk executive briefs and mean-time-to-detect (MTTD) / mean-time-to-respond (MTTR) analytics.
-* Exportable compliance documentation.
-
-### 9. System Settings & Connectors (`#settings`)
-* SIEM, SOAR, EDR, and Cloud CSPM telemetry ingestion configurations.
-* Role-based access control (RBAC), API key management, and webhook pipelines.
-* Alert threshold tuning and automated containment boundary settings.
+* **Executive Security Dashboard (`#dashboard`)**: High-velocity posture metrics, Threat Velocity, Active Incident counts, and SLA compliance.
+* **Incident Center (`#incident-center`)**: In-depth forensic examination workspace with SLA timers, root-cause diagnostic trees, and affected asset impact matrices.
+* **Cyber Digital Twin (`#digital-twin`)**: Dynamic SVG network topology canvas with interactive nodes, packet flow animations, and blast-radius projections.
+* **Memory Twin (`#memory-twin`)**: Vector-retrievable repository of past breach incidents and postmortem telemetry benchmarks.
+* **Autonomous AI Copilot (`#ai-copilot`)**: Conversational AI decision intelligence fine-tuned for SecOps triage, policy hardening, and automated playbooks.
+* **Simulation Lab (`#simulation-lab`)**: "What-If" scenario sandbox modeling financial, operational downtime, and security tradeoffs.
+* **Asset Discovery & Inventory (`#assets`)**: Full-spectrum attack surface management (ASM), agent status, and vulnerability CVE density indicators.
+* **Executive Reports & Audits (`#reports`)**: Multi-framework compliance reporting (SOC 2 Type II, ISO 27001, NIST CSF, HIPAA) and MTTD/MTTR analytics.
+* **System Settings & Connectors (`#settings`)**: SIEM, SOAR, EDR, and Cloud CSPM ingestion configurations, RBAC, and alert threshold tuning.
 
 ---
 
@@ -111,6 +190,14 @@ PROJECT-CYGUIN/
 ├── tsconfig.json               # TypeScript compiler configuration (strict mode)
 ├── vite.config.ts              # Vite 6 bundler configuration
 ├── DESIGN.md                   # Mission-Critical Cyber OS Design System tokens
+├── docs/
+│   └── images/                 # High-resolution prototype screenshots
+│       ├── dashboard-view.png
+│       ├── digital-twin-view.png
+│       ├── incident-center-view.png
+│       ├── ai-copilot-view.png
+│       ├── simulation-lab-view.png
+│       └── memory-twin-view.png
 └── src/
     ├── main.tsx                # Application bootstrap
     ├── App.tsx                 # Core layout, global search listener & view routing

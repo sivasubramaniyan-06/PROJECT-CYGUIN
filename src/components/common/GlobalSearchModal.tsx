@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   Search,
-  ShieldAlert,
-  Server,
-  Network,
-  Cpu,
-  FileText,
-  Sliders,
-  Sparkles,
   X,
-  ArrowRight
+  Server,
+  ShieldAlert,
+  Network,
+  FileSpreadsheet,
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import { RouteId } from '../../types';
+import { ASSETS_DATA, INCIDENTS_DATA } from '../../data/organizationData';
 
 interface GlobalSearchModalProps {
   isOpen: boolean;
@@ -30,7 +29,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        if (isOpen) onClose();
       }
       if (e.key === 'Escape' && isOpen) {
         onClose();
@@ -42,72 +40,18 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 
   if (!isOpen) return null;
 
-  const quickItems = [
-    {
-      id: 'dash',
-      title: 'SOC Command Center Overview',
-      subtitle: 'Executive Security Posture (84/100) & Critical Alerts',
-      icon: <Cpu size={16} color="var(--color-primary)" />,
-      route: 'dashboard' as RouteId,
-      badge: 'Route'
-    },
-    {
-      id: 'inc-1',
-      title: 'INC-2026-8902: Kerberoasting toward Finance DB',
-      subtitle: 'Active Critical Incident on AWS RDS eu-west-1',
-      icon: <ShieldAlert size={16} color="var(--color-status-critical)" />,
-      route: 'incident-center' as RouteId,
-      badge: 'Critical Incident'
-    },
-    {
-      id: 'twin',
-      title: 'Security Digital Twin: Topology Map',
-      subtitle: 'ABC Technologies IT Infrastructure Graph (135 nodes)',
-      icon: <Network size={16} color="var(--color-secondary)" />,
-      route: 'digital-twin' as RouteId,
-      badge: 'Twin Engine'
-    },
-    {
-      id: 'ast-fin',
-      title: 'Asset: RDS-FIN-DB (10.200.20.5)',
-      subtitle: 'PostgreSQL 16 Enterprise Cluster - Finance Operations',
-      icon: <Server size={16} color="var(--color-status-risk-medium)" />,
-      route: 'assets' as RouteId,
-      badge: 'Asset'
-    },
-    {
-      id: 'copilot',
-      title: 'AI Copilot: Investigate Attack Vectors',
-      subtitle: 'Natural language SOC decision assistance',
-      icon: <Sparkles size={16} color="var(--color-secondary)" />,
-      route: 'ai-copilot' as RouteId,
-      badge: 'AI Intelligence'
-    },
-    {
-      id: 'sim',
-      title: 'Simulation Lab: Pre-Deployment Sandbox',
-      subtitle: 'Test firewall rule isolation & business downtime',
-      icon: <Sliders size={16} color="var(--color-tertiary)" />,
-      route: 'simulation-lab' as RouteId,
-      badge: 'Simulation'
-    },
-    {
-      id: 'rep',
-      title: 'Compliance Reports: SOC 2 & ISO 27001',
-      subtitle: 'Audit-ready security matrices for ABC Technologies',
-      icon: <FileText size={16} color="var(--color-status-healthy)" />,
-      route: 'reports' as RouteId,
-      badge: 'Reports'
-    }
-  ];
+  const filteredAssets = ASSETS_DATA.filter(
+    (a) =>
+      a.name.toLowerCase().includes(query.toLowerCase()) ||
+      a.ipAddress.toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 3);
 
-  const filtered = query.trim()
-    ? quickItems.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query.toLowerCase()) ||
-          item.subtitle.toLowerCase().includes(query.toLowerCase())
-      )
-    : quickItems;
+  const filteredIncidents = INCIDENTS_DATA.filter(
+    (i) =>
+      i.title.toLowerCase().includes(query.toLowerCase()) ||
+      i.id.toLowerCase().includes(query.toLowerCase()) ||
+      i.mitreTechnique.toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 3);
 
   return (
     <div
@@ -117,14 +61,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(4, 6, 10, 0.75)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: 'rgba(2, 3, 5, 0.85)',
+        backdropFilter: 'blur(10px)',
         zIndex: 100,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        paddingTop: '12vh',
-        animation: 'slide-down-fade 0.2s ease-out'
+        paddingTop: '12vh'
       }}
       onClick={onClose}
     >
@@ -132,18 +75,20 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         style={{
           width: '640px',
           maxWidth: '92vw',
-          backgroundColor: 'var(--color-surface-panel)',
-          border: '1px solid var(--color-border-medium)',
+          backgroundColor: '#090c10',
+          border: '1px solid var(--color-border-cyan)',
           borderRadius: 'var(--radius-xl)',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-          overflow: 'hidden'
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 229, 255, 0.15)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column'
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search Input Box */}
+        {/* Search Input Bar */}
         <div
           style={{
-            padding: '14px 18px',
+            padding: '16px 20px',
             borderBottom: '1px solid var(--color-border-subtle)',
             display: 'flex',
             alignItems: 'center',
@@ -153,146 +98,118 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           <Search size={18} color="var(--color-secondary)" />
           <input
             type="text"
-            placeholder="Search assets, incidents, CVEs, twin nodes, simulations..."
+            autoFocus
+            placeholder="Search across ABC Technologies assets, incidents, CVEs, twin nodes..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            autoFocus
             style={{
               flex: 1,
               fontSize: '14px',
-              color: '#ffffff'
+              color: '#ffffff',
+              background: 'transparent',
+              border: 'none',
+              outline: 'none'
             }}
           />
-          <button
-            onClick={onClose}
-            style={{
-              color: 'var(--color-text-muted)',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '4px'
-            }}
-          >
+          <button onClick={onClose} style={{ color: 'var(--color-text-muted)' }}>
             <X size={16} />
           </button>
         </div>
 
-        {/* Results List */}
-        <div
-          style={{
-            maxHeight: '380px',
-            overflowY: 'auto',
-            padding: '8px'
-          }}
-        >
-          <div
-            style={{
-              padding: '6px 12px',
-              fontSize: '10px',
-              fontWeight: 700,
-              color: 'var(--color-text-dim)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase'
-            }}
-          >
-            {query ? 'Search Results' : 'Suggested Omnibar Quick Jumps'}
-          </div>
-
-          {filtered.length === 0 ? (
-            <div
-              style={{
-                padding: '32px 16px',
-                textAlign: 'center',
-                color: 'var(--color-text-muted)',
-                fontSize: '13px'
-              }}
-            >
-              No matching cybersecurity records found for &ldquo;{query}&rdquo;.
-            </div>
-          ) : (
-            filtered.map((item) => (
+        {/* Results Body */}
+        <div style={{ maxHeight: '420px', overflowY: 'auto', padding: '14px 18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {/* Quick Nav Suggestions */}
+          {!query && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 8px' }}>
+                DIRECT MODULE JUMP
+              </span>
               <div
-                key={item.id}
-                onClick={() => {
-                  onNavigate(item.route);
-                  onClose();
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  cursor: 'pointer',
-                  transition: 'all var(--transition-fast)',
-                  gap: '12px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-surface-hover)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', borderRadius: 'var(--radius-md)', cursor: 'pointer' }}
+                className="incident-row"
+                onClick={() => { onNavigate('digital-twin'); onClose(); }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div
-                    style={{
-                      width: '30px',
-                      height: '30px',
-                      borderRadius: 'var(--radius-sm)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {item.icon}
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                      {item.title}
-                    </span>
-                    <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
-                      {item.subtitle}
-                    </span>
-                  </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Network size={15} color="var(--color-secondary)" />
+                  <span style={{ fontSize: '13px', color: '#ffffff', fontWeight: 600 }}>Security Digital Twin Topology</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span
-                    style={{
-                      fontSize: '10px',
-                      padding: '2px 6px',
-                      borderRadius: '4px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                      color: 'var(--color-text-secondary)'
-                    }}
-                  >
-                    {item.badge}
-                  </span>
-                  <ArrowRight size={14} color="var(--color-text-dim)" />
-                </div>
+                <ArrowRight size={13} color="var(--color-text-muted)" />
               </div>
-            ))
+              <div
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', borderRadius: 'var(--radius-md)', cursor: 'pointer' }}
+                className="incident-row"
+                onClick={() => { onNavigate('simulation-lab'); onClose(); }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Sparkles size={15} color="var(--color-tertiary)" />
+                  <span style={{ fontSize: '13px', color: '#ffffff', fontWeight: 600 }}>Decision Sandbox (What-If Simulation)</span>
+                </div>
+                <ArrowRight size={13} color="var(--color-text-muted)" />
+              </div>
+            </div>
+          )}
+
+          {/* Incidents Matches */}
+          {filteredIncidents.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 8px' }}>
+                MATCHED THREAT INCIDENTS
+              </span>
+              {filteredIncidents.map((inc) => (
+                <div
+                  key={inc.id}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', borderRadius: 'var(--radius-md)', cursor: 'pointer' }}
+                  className="incident-row"
+                  onClick={() => { onNavigate('incident-center'); onClose(); }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <ShieldAlert size={15} color={inc.severity === 'critical' ? 'var(--color-status-critical)' : 'var(--color-status-warning)'} />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>{inc.title}</span>
+                      <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        {inc.id} • {inc.targetEntity}
+                      </span>
+                    </div>
+                  </div>
+                  <ArrowRight size={13} color="var(--color-text-muted)" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Asset Matches */}
+          {filteredAssets.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 8px' }}>
+                MATCHED ASSETS
+              </span>
+              {filteredAssets.map((asset) => (
+                <div
+                  key={asset.id}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', borderRadius: 'var(--radius-md)', cursor: 'pointer' }}
+                  className="incident-row"
+                  onClick={() => { onNavigate('assets'); onClose(); }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Server size={15} color="var(--color-primary)" />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>{asset.name}</span>
+                      <span style={{ fontSize: '10px', color: 'var(--color-secondary)', fontFamily: 'var(--font-mono)' }}>
+                        {asset.ipAddress} • {asset.location}
+                      </span>
+                    </div>
+                  </div>
+                  <ArrowRight size={13} color="var(--color-text-muted)" />
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Footer info */}
-        <div
-          style={{
-            padding: '10px 18px',
-            borderTop: '1px solid var(--color-border-subtle)',
-            backgroundColor: 'rgba(10, 16, 27, 0.6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '11px',
-            color: 'var(--color-text-muted)'
-          }}
-        >
-          <span>Organization: <strong>ABC Technologies Pvt Ltd</strong></span>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <span><kbd className="kbd-shortcut">ESC</kbd> to exit</span>
-            <span><kbd className="kbd-shortcut">↵</kbd> to select</span>
-          </div>
+        {/* Footer */}
+        <div style={{ padding: '10px 18px', backgroundColor: 'rgba(5, 6, 8, 0.95)', borderTop: '1px solid var(--color-border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+          <span>Navigation: <kbd className="kbd-shortcut">↑</kbd> <kbd className="kbd-shortcut">↓</kbd> to select, <kbd className="kbd-shortcut">Enter</kbd> to jump</span>
+          <span>Press <kbd className="kbd-shortcut">ESC</kbd> to close</span>
         </div>
       </div>
     </div>

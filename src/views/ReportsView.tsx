@@ -3,46 +3,54 @@ import {
   FileSpreadsheet,
   Download,
   ShieldCheck,
-  Award,
+  CheckCircle2,
   Calendar,
-  Layers
+  Layers,
+  Sparkles,
+  TrendingUp,
+  FileText
 } from 'lucide-react';
 import { RouteId } from '../types';
 import { ORG_METADATA } from '../data/organizationData';
 import { MetricCard } from '../components/common/MetricCard';
 
 interface ReportsViewProps {
-  onNavigate?: (route: RouteId) => void;
+  onNavigate: (route: RouteId) => void;
 }
 
-export const ReportsView: React.FC<ReportsViewProps> = () => {
-  const reportsList = [
+export const ReportsView: React.FC<ReportsViewProps> = ({ onNavigate }) => {
+  const complianceFrameworks = [
     {
-      id: 'REP-2026-Q3-EXEC',
-      title: 'Executive Board Cybersecurity Posture & Risk Report',
-      period: 'Q3 2026 (Aug - Sep)',
-      type: 'Executive Briefing',
-      score: '84/100 Strong',
-      compliance: 'SOC 2 Type II, ISO 27001',
-      generatedDate: '2026-09-01'
+      name: 'SOC 2 Type II (Security & Availability)',
+      score: 98.2,
+      status: 'Compliant',
+      passingControls: '118/120 Controls Passing',
+      lastAudit: 'Aug 28, 2026',
+      color: 'var(--color-status-healthy)'
     },
     {
-      id: 'REP-2026-ATTACK-08',
-      title: 'MITRE ATT&CK Enterprise Coverage & Gap Analysis',
-      period: 'August 2026',
-      type: 'Technical Audit',
-      score: '91.4% Detection Coverage',
-      compliance: 'NIST CSF v2.0',
-      generatedDate: '2026-08-28'
+      name: 'ISO / IEC 27001:2022 ISMS',
+      score: 94.6,
+      status: 'Compliant',
+      passingControls: '91/93 Controls Passing',
+      lastAudit: 'Aug 15, 2026',
+      color: 'var(--color-status-healthy)'
     },
     {
-      id: 'REP-2026-CLOUD-AWS',
-      title: 'AWS Cloud Infrastructure Security & IAM Posture',
-      period: 'Active Telemetry',
-      type: 'Cloud Compliance',
-      score: 'CIS AWS Benchmark Level 2 (88%)',
-      compliance: 'CIS Controls v8',
-      generatedDate: '2026-08-25'
+      name: 'NIST Cybersecurity Framework (CSF v2.0)',
+      score: 89.0,
+      status: 'Elevated Posture',
+      passingControls: 'Tier 3 (Repeatable)',
+      lastAudit: 'Aug 01, 2026',
+      color: 'var(--color-secondary)'
+    },
+    {
+      name: 'GDPR / Data Privacy Protection',
+      score: 96.5,
+      status: 'Audited',
+      passingControls: 'All Financial DB Encryption Passing',
+      lastAudit: 'Jul 20, 2026',
+      color: 'var(--color-primary)'
     }
   ];
 
@@ -52,122 +60,147 @@ export const ReportsView: React.FC<ReportsViewProps> = () => {
       <div className="view-header-row">
         <div className="view-heading-group">
           <h1 className="view-title">
-            <FileSpreadsheet size={22} color="var(--color-status-healthy)" />
-            <span>Compliance & Executive Reports</span>
-            <span className="brand-badge">Audit-Ready Matrices</span>
+            <FileSpreadsheet size={24} color="var(--color-secondary)" />
+            <span>Compliance Posture & Executive Reports</span>
+            <span className="brand-badge">Audit Ready</span>
           </h1>
           <p className="view-description">
-            Standardized cybersecurity posture reporting, SOC 2 / ISO 27001 continuous compliance, and board briefings
-            for <strong>{ORG_METADATA.name}</strong>.
+            Continuous compliance mapping, SOC maturity assessment, and board-level risk reports for{' '}
+            <strong>{ORG_METADATA.name}</strong>.
           </p>
         </div>
         <div className="view-actions-group">
-          <button className="btn-primary" onClick={() => alert('Exporting Executive Report PDF for ABC Technologies Pvt Ltd...')}>
+          <button
+            className="btn-primary"
+            onClick={() => alert('Generating Board Executive Security Briefing PDF for ABC Technologies Pvt Ltd...')}
+          >
             <Download size={14} />
             <span>Export Executive PDF</span>
           </button>
         </div>
       </div>
 
-      {/* Reports Metrics */}
+      {/* Compliance Gauges */}
       <div className="metrics-grid">
         <MetricCard
-          title="SOC 2 Type II Controls"
+          title="SOC 2 Type II Posture"
           value="98.2%"
-          delta="Passing"
+          delta="+2.4% vs Q1"
           deltaType="positive"
-          caption="112 of 114 Continuous Controls Validated"
-          icon={<ShieldCheck size={16} />}
-          iconBg="rgba(16, 185, 129, 0.15)"
+          caption="118/120 Passing Controls"
+          icon={<ShieldCheck size={18} />}
+          iconBg="rgba(21, 232, 138, 0.15)"
           iconColor="var(--color-status-healthy)"
         />
         <MetricCard
-          title="ISO 27001:2022 Posture"
-          value="Conformant"
-          delta="Stage 2 Ready"
+          title="ISO 27001:2022"
+          value="94.6%"
+          delta="Certified"
           deltaType="positive"
-          caption="Audited by CYGUIN Sentinel"
-          icon={<Award size={16} />}
-          iconBg="rgba(0, 102, 255, 0.15)"
-          iconColor="var(--color-primary)"
-        />
-        <MetricCard
-          title="NIST CSF v2.0 Score"
-          value="3.8 / 4.0"
-          delta="Tier 4 Adaptive"
-          deltaType="positive"
-          caption="Identity & Detection Lead"
-          icon={<Layers size={16} />}
+          caption="Zero Non-Conformances"
+          icon={<FileText size={18} />}
           iconBg="rgba(0, 229, 255, 0.15)"
           iconColor="var(--color-secondary)"
         />
+        <MetricCard
+          title="NIST CSF v2.0 Maturity"
+          value="Tier 3"
+          delta="Repeatable & Adaptive"
+          deltaType="neutral"
+          caption="Continuous Threat Simulation"
+          icon={<Layers size={18} />}
+          iconBg="rgba(45, 124, 255, 0.15)"
+          iconColor="var(--color-primary)"
+        />
+        <MetricCard
+          title="Executive Risk Score"
+          value="84 / 100"
+          delta="+4 pts this week"
+          deltaType="positive"
+          caption="Peer Benchmark: Top 10%"
+          icon={<TrendingUp size={18} />}
+          iconBg="rgba(56, 189, 248, 0.15)"
+          iconColor="var(--color-tertiary)"
+        />
       </div>
 
-      {/* Generated Reports Table */}
+      {/* Compliance Frameworks Detailed Matrix */}
       <div className="glass-card">
         <div className="card-header-bar">
           <div className="card-header-title">
-            <FileSpreadsheet size={16} color="var(--color-status-healthy)" />
-            <span>Generated Audit Briefings & Reports</span>
+            <ShieldCheck size={16} color="var(--color-status-healthy)" />
+            <span>Continuous Compliance Control Evaluation</span>
           </div>
         </div>
 
-        <div className="incident-table-wrapper">
-          <table className="incident-table">
-            <thead>
-              <tr>
-                <th>Report Title & ID</th>
-                <th>Reporting Period</th>
-                <th>Framework & Compliance</th>
-                <th>Score / Rating</th>
-                <th>Generated</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reportsList.map((rep) => (
-                <tr key={rep.id} className="incident-row">
-                  <td>
-                    <div className="incident-title-cell">
-                      <span>{rep.title}</span>
-                      <span className="incident-subtext">{rep.id} • {rep.type}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
-                      <Calendar size={12} color="var(--color-text-muted)" />
-                      <span>{rep.period}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span style={{ fontSize: '12px', color: 'var(--color-secondary)', fontWeight: 500 }}>
-                      {rep.compliance}
-                    </span>
-                  </td>
-                  <td>
-                    <span style={{ fontSize: '12px', fontWeight: 600, color: '#ffffff' }}>
-                      {rep.score}
-                    </span>
-                  </td>
-                  <td>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-text-muted)' }}>
-                      {rep.generatedDate}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn-secondary"
-                      style={{ padding: '4px 10px', fontSize: '11px' }}
-                      onClick={() => alert(`Downloading ${rep.title}...`)}
-                    >
-                      <Download size={12} />
-                      <span>Download</span>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="card-body-padded" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {complianceFrameworks.map((cf, idx) => (
+            <div
+              key={idx}
+              style={{
+                padding: '18px 22px',
+                backgroundColor: 'rgba(255, 255, 255, 0.015)',
+                border: '1px solid var(--color-border-subtle)',
+                borderRadius: 'var(--radius-lg)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '16px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div
+                  style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid var(--color-border-subtle)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '14px',
+                    fontWeight: 800,
+                    fontFamily: 'var(--font-mono)',
+                    color: cf.color
+                  }}
+                >
+                  {cf.score}%
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff' }}>{cf.name}</h3>
+                  <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                    {cf.passingControls} • Last Audit: {cf.lastAudit}
+                  </span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    padding: '3px 10px',
+                    borderRadius: 'var(--radius-full)',
+                    backgroundColor: 'rgba(21, 232, 138, 0.1)',
+                    color: 'var(--color-status-healthy)',
+                    border: '1px solid rgba(21, 232, 138, 0.25)'
+                  }}
+                >
+                  {cf.status}
+                </span>
+                <button
+                  className="btn-secondary"
+                  style={{ padding: '6px 12px', fontSize: '11px' }}
+                  onClick={() => alert(`Exporting audit dossier for ${cf.name}...`)}
+                >
+                  <Download size={12} />
+                  <span>Audit Dossier</span>
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

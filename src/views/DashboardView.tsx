@@ -13,7 +13,8 @@ import {
   Network,
   Cloud,
   Lock,
-  ChevronRight
+  ChevronRight,
+  Radio
 } from 'lucide-react';
 import { RouteId } from '../types';
 import {
@@ -38,9 +39,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
       <div className="view-header-row">
         <div className="view-heading-group">
           <h1 className="view-title">
-            <Activity size={22} color="var(--color-primary)" />
-            <span>Executive Command Center</span>
-            <span className="brand-badge">Real-Time Twin Sync</span>
+            <Activity size={24} color="var(--color-primary)" />
+            <span>SOC Command Operations Center</span>
+            <span className="brand-badge">Mission Critical</span>
           </h1>
           <p className="view-description">
             Continuous threat posture, AI decision intelligence, and attack blast-radius simulation for{' '}
@@ -70,11 +71,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
           </div>
           <div className="score-info">
             <div className="score-title">
-              <span>Enterprise Posture: Strong</span>
+              <span>Enterprise Posture: Tactical Defenses Active</span>
               <span className="score-badge">{ORG_METADATA.scoreDelta} this week</span>
             </div>
             <p className="score-desc">
-              ABC Technologies IT posture is <strong>14.2% above peer average</strong>. 2 critical lateral attack paths
+              ABC Technologies security posture is <strong>14.2% above peer average</strong>. 2 critical lateral attack paths
               are actively contained by Digital Twin pre-simulated micro-segmentation.
             </p>
           </div>
@@ -82,33 +83,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
         <div className="score-actions">
           <button className="btn-secondary" onClick={() => onNavigate('digital-twin')}>
             <Network size={14} color="var(--color-secondary)" />
-            <span>View Digital Twin Topology</span>
+            <span>Launch Digital Twin Topology</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Key Metrics Grid (4 Cards) */}
+      {/* 2. Key Metrics Grid (4 Large Executive Cards) */}
       <div className="metrics-grid">
         <MetricCard
-          title="Critical Alerts"
+          title="Active Critical Threats"
           value="2"
           delta="+1 vs 24h"
           deltaType="negative"
-          caption="1 Target: Finance DB (AWS RDS)"
-          icon={<ShieldAlert size={16} />}
-          iconBg="rgba(239, 68, 68, 0.15)"
+          caption="Target: RDS-FIN-DB (AWS eu-west-1)"
+          icon={<ShieldAlert size={18} />}
+          iconBg="rgba(255, 77, 87, 0.15)"
           iconColor="var(--color-status-critical)"
           badge="High Priority"
           onClick={() => onNavigate('incident-center')}
         />
         <MetricCard
-          title="Protected Assets"
+          title="Monitored Entities"
           value="135 / 135"
-          delta="100% Sentinel Live"
+          delta="100% Sentinel Stream"
           deltaType="positive"
           caption="120 Endpoints • 15 Prod Servers"
-          icon={<Server size={16} />}
-          iconBg="rgba(16, 185, 129, 0.15)"
+          icon={<Server size={18} />}
+          iconBg="rgba(21, 232, 138, 0.15)"
           iconColor="var(--color-status-healthy)"
           onClick={() => onNavigate('assets')}
         />
@@ -118,31 +119,31 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
           delta="+18.4%"
           deltaType="positive"
           caption="AI Twin Auto-Containment"
-          icon={<ShieldCheck size={16} />}
-          iconBg="rgba(0, 102, 255, 0.15)"
+          icon={<ShieldCheck size={18} />}
+          iconBg="rgba(45, 124, 255, 0.15)"
           iconColor="var(--color-primary)"
         />
         <MetricCard
-          title="Simulated Decisions"
+          title="Pre-Simulated Decisions"
           value="18"
           delta="99.4% Confidence"
           deltaType="neutral"
           caption="Zero Unplanned Downtime"
-          icon={<Zap size={16} />}
+          icon={<Zap size={18} />}
           iconBg="rgba(0, 229, 255, 0.15)"
           iconColor="var(--color-secondary)"
           onClick={() => onNavigate('simulation-lab')}
         />
       </div>
 
-      {/* 3. Threat Trends & Velocity vs Organization Risk (2-Column Grid) */}
+      {/* 3. Threat Trends & Velocity vs Organization Risk */}
       <div className="dashboard-grid-2col">
         {/* Threat Trends Chart Card */}
         <div className="glass-card">
           <div className="card-header-bar">
             <div className="card-header-title">
               <TrendingUp size={16} color="var(--color-primary)" />
-              <span>Threat Velocity & Mitigation Timeline (24 Hours)</span>
+              <span>Threat Velocity & Auto-Mitigation Stream (24h)</span>
             </div>
             <div className="chart-legend-row">
               <div className="legend-item">
@@ -155,7 +156,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               </div>
               <div className="legend-item">
                 <span className="legend-color-dot" style={{ backgroundColor: 'var(--color-primary)' }} />
-                <span>Auto-Mitigated</span>
+                <span>Mitigated</span>
               </div>
             </div>
           </div>
@@ -168,24 +169,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
                     <div
                       className="bar-segment"
                       style={{
-                        height: `${point.mitigated * 2.8}px`,
-                        backgroundColor: 'var(--color-primary)'
+                        height: `${point.mitigated * 3.2}px`,
+                        backgroundColor: 'var(--color-primary)',
+                        boxShadow: '0 0 8px rgba(45, 124, 255, 0.4)'
                       }}
                       title={`${point.mitigated} Auto-Mitigated`}
                     />
                     <div
                       className="bar-segment"
                       style={{
-                        height: `${point.medium * 5}px`,
-                        backgroundColor: 'var(--color-status-warning)'
+                        height: `${point.medium * 5.5}px`,
+                        backgroundColor: 'var(--color-status-warning)',
+                        boxShadow: '0 0 8px rgba(255, 200, 61, 0.4)'
                       }}
                       title={`${point.medium} Medium Risk`}
                     />
                     <div
                       className="bar-segment"
                       style={{
-                        height: `${point.critical * 12}px`,
-                        backgroundColor: 'var(--color-status-critical)'
+                        height: `${point.critical * 14}px`,
+                        backgroundColor: 'var(--color-status-critical)',
+                        boxShadow: '0 0 10px rgba(255, 77, 87, 0.5)'
                       }}
                       title={`${point.critical} Critical Incidents`}
                     />
@@ -195,8 +199,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               ))}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-text-muted)' }}>
-              <span>Telemetry Ingestion: <strong>1,480,290 events/sec</strong></span>
-              <span>Memory Twin Anomaly Delta: <strong>-4.2%</strong></span>
+              <span>Telemetry Ingestion: <strong style={{ color: '#ffffff' }}>1,480,290 events/sec</strong></span>
+              <span>Memory Twin Anomaly Delta: <strong style={{ color: 'var(--color-status-healthy)' }}>-4.2%</strong></span>
             </div>
           </div>
         </div>
@@ -206,7 +210,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
           <div className="card-header-bar">
             <div className="card-header-title">
               <Layers size={16} color="var(--color-secondary)" />
-              <span>Organization Risk Exposure</span>
+              <span>Organization Risk Surface</span>
             </div>
             <button className="btn-ghost" onClick={() => onNavigate('digital-twin')}>
               <span>Topology</span>
@@ -219,7 +223,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               <div className="risk-matrix-item">
                 <div className="risk-item-header">
                   <span className="risk-item-name">
-                    <Cloud size={13} color="var(--color-tertiary)" />
+                    <Cloud size={14} color="var(--color-tertiary)" />
                     AWS Cloud VPCs (us-east-1, eu-west-1)
                   </span>
                   <span className="risk-item-score" style={{ color: 'var(--color-status-critical)' }}>
@@ -237,8 +241,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               <div className="risk-matrix-item">
                 <div className="risk-item-header">
                   <span className="risk-item-name">
-                    <Server size={13} color="var(--color-primary)" />
-                    On-Prem Production Servers (15 nodes)
+                    <Server size={14} color="var(--color-primary)" />
+                    Production Servers (15 nodes)
                   </span>
                   <span className="risk-item-score" style={{ color: 'var(--color-status-warning)' }}>
                     42% Moderate
@@ -255,7 +259,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               <div className="risk-matrix-item">
                 <div className="risk-item-header">
                   <span className="risk-item-name">
-                    <Lock size={13} color="var(--color-secondary)" />
+                    <Lock size={14} color="var(--color-secondary)" />
                     Employee Endpoints (120 nodes)
                   </span>
                   <span className="risk-item-score" style={{ color: 'var(--color-status-healthy)' }}>
@@ -273,7 +277,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
               <div className="risk-matrix-item">
                 <div className="risk-item-header">
                   <span className="risk-item-name">
-                    <Activity size={13} color="var(--color-status-healthy)" />
+                    <Activity size={14} color="var(--color-status-healthy)" />
                     Finance DB & HR SaaS Connectors
                   </span>
                   <span className="risk-item-score" style={{ color: 'var(--color-status-critical)' }}>
@@ -292,7 +296,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
         </div>
       </div>
 
-      {/* 4. Active Critical Incidents & AI Recommendations (2-Column Grid) */}
+      {/* 4. Active Critical Incidents & AI Recommendations */}
       <div className="dashboard-grid-equal">
         {/* Critical Alerts Priority Queue */}
         <div className="glass-card">
@@ -311,7 +315,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
             <table className="incident-table">
               <thead>
                 <tr>
-                  <th>Incident ID & Target</th>
+                  <th>Incident & Target</th>
                   <th>Severity</th>
                   <th>Kill Chain</th>
                   <th>SLA</th>
@@ -343,7 +347,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
                       </span>
                     </td>
                     <td>
-                      <span style={{ fontSize: '11px', color: 'var(--color-status-critical)', fontWeight: 600 }}>
+                      <span style={{ fontSize: '11px', color: 'var(--color-status-critical)', fontWeight: 700 }}>
                         {inc.slaMinutesRemaining}m left
                       </span>
                     </td>
@@ -386,7 +390,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
                   </div>
                   <span className="ai-rec-confidence">{rec.confidence}% Confidence</span>
                 </div>
-                <div style={{ fontWeight: 600, fontSize: '13px', color: '#ffffff' }}>
+                <div style={{ fontWeight: 700, fontSize: '13px', color: '#ffffff' }}>
                   {rec.title}
                 </div>
                 <p className="ai-rec-content">{rec.description}</p>
@@ -406,7 +410,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
         </div>
       </div>
 
-      {/* 5. Security Digital Twin Mini-Viewport & Recent Audit Activity (2-Column Grid) */}
+      {/* 5. Security Digital Twin Mini-Viewport & Audit Timeline */}
       <div className="dashboard-grid-equal">
         {/* Security Digital Twin Preview Card */}
         <div className="glass-card">
@@ -424,55 +428,56 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
           <div className="card-body-padded">
             <div
               style={{
-                height: '200px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'rgba(8, 12, 20, 0.95)',
+                height: '210px',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: '#030406',
                 border: '1px solid var(--color-border-subtle)',
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-around',
-                padding: '20px'
+                padding: '20px',
+                boxShadow: 'inset 0 0 24px rgba(0, 0, 0, 0.8)'
               }}
             >
               <div className="twin-node-box compromised" onClick={() => onNavigate('digital-twin')}>
-                <ShieldAlert size={14} color="var(--color-status-critical)" />
+                <ShieldAlert size={16} color="var(--color-status-critical)" />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 600 }}>ABC-WS-088</span>
+                  <span style={{ fontSize: '11px', fontWeight: 700 }}>ABC-WS-088</span>
                   <span style={{ fontSize: '9px', color: 'var(--color-status-critical)' }}>Compromised</span>
                 </div>
               </div>
 
-              <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-status-critical)', position: 'relative' }}>
-                <div className="brand-icon-pulse animate-pulse-subtle" style={{ top: '-4px', left: '16px' }} />
+              <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-status-critical)', position: 'relative', boxShadow: '0 0 8px var(--color-status-critical)' }}>
+                <div className="brand-icon-pulse animate-led-critical" style={{ top: '-4px', left: '16px' }} />
               </div>
 
               <div className="twin-node-box at-risk" onClick={() => onNavigate('digital-twin')}>
-                <Server size={14} color="var(--color-status-risk-medium)" />
+                <Server size={16} color="var(--color-status-risk-medium)" />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 600 }}>SRV-AD-01</span>
+                  <span style={{ fontSize: '11px', fontWeight: 700 }}>SRV-AD-01</span>
                   <span style={{ fontSize: '9px', color: 'var(--color-status-warning)' }}>Kerberos Relay</span>
                 </div>
               </div>
 
-              <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-status-risk-medium)' }} />
+              <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-status-risk-medium)', boxShadow: '0 0 6px var(--color-status-risk-medium)' }} />
 
               <div className="twin-node-box compromised" onClick={() => onNavigate('digital-twin')}>
-                <Lock size={14} color="var(--color-status-critical)" />
+                <Lock size={16} color="var(--color-status-critical)" />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 600 }}>RDS-FIN-DB</span>
+                  <span style={{ fontSize: '11px', fontWeight: 700 }}>RDS-FIN-DB</span>
                   <span style={{ fontSize: '9px', color: 'var(--color-status-critical)' }}>Target Asset</span>
                 </div>
               </div>
             </div>
-            <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-text-muted)' }}>
-              <span>Blast Radius Calculation: <strong>4 assets in path</strong></span>
-              <span style={{ color: 'var(--color-secondary)' }}>Live Attack Vector Mapped</span>
+            <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+              <span>Blast Radius Calculation: <strong style={{ color: '#ffffff' }}>4 assets in path</strong></span>
+              <span style={{ color: 'var(--color-secondary)', fontWeight: 600 }}>Live Attack Vector Mapped</span>
             </div>
           </div>
         </div>
 
-        {/* Recent Activity Audit Timeline */}
+        {/* Real-Time SOC Incident Timeline */}
         <div className="glass-card">
           <div className="card-header-bar">
             <div className="card-header-title">

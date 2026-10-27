@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Shield,
-  Building2
+  Building2,
+  Radio
 } from 'lucide-react';
 import { RouteId } from '../../types';
 import { ORG_METADATA } from '../../data/organizationData';
@@ -32,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const navGroups = [
     {
-      title: 'Command & Ops',
+      title: 'Command & Operations',
       items: [
         {
           id: 'dashboard' as RouteId,
@@ -83,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ]
     },
     {
-      title: 'Management & Audit',
+      title: 'Management & Governance',
       items: [
         {
           id: 'assets' as RouteId,
@@ -113,14 +114,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="sidebar-header">
         <a href="#dashboard" onClick={(e) => { e.preventDefault(); onNavigate('dashboard'); }} className="brand-wrapper">
           <div className="brand-icon-box">
-            <Shield size={18} strokeWidth={2.4} />
-            <div className="brand-icon-pulse animate-pulse-subtle" />
+            <Shield size={19} strokeWidth={2.4} />
+            <div className="brand-icon-pulse" />
           </div>
           {!isCollapsed && (
             <div className="brand-text-group">
               <div className="brand-title">
                 CYGUIN
-                <span className="brand-badge">SOC AI</span>
+                <span className="brand-badge">SOC OS</span>
               </div>
               <span className="brand-subtitle">Decision Intelligence</span>
             </div>
@@ -128,12 +129,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </a>
       </div>
 
-      {/* Target Enterprise Pill */}
+      {/* Target Enterprise Profile Card */}
       {!isCollapsed && (
         <div className="sidebar-org-pill">
           <div className="sidebar-org-content">
             <div className="sidebar-org-avatar">
-              <Building2 size={12} />
+              <Building2 size={13} />
             </div>
             <div className="sidebar-org-info">
               <span className="sidebar-org-name">{ORG_METADATA.name}</span>
@@ -202,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-          {!isCollapsed && <span>Collapse Sidebar</span>}
+          {!isCollapsed && <span>Collapse Navigation</span>}
         </button>
       </div>
     </aside>

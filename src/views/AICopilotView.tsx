@@ -10,7 +10,9 @@ import {
   RotateCw,
   ShieldAlert,
   Server,
-  Network
+  Network,
+  Terminal,
+  Activity
 } from 'lucide-react';
 import { RouteId } from '../types';
 import { ORG_METADATA } from '../data/organizationData';
@@ -35,6 +37,7 @@ interface ChatMessage {
 export const AICopilotView: React.FC<AICopilotViewProps> = ({ onNavigate }) => {
   const [inputText, setInputText] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [isThinking, setIsThinking] = useState(false);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -97,9 +100,11 @@ I have detected **2 active critical attack paths** targeting the **AWS RDS Finan
 
     setMessages((prev) => [...prev, userMsg]);
     setInputText('');
+    setIsThinking(true);
 
     // Simulated AI response
     setTimeout(() => {
+      setIsThinking(false);
       const aiResponse: ChatMessage = {
         id: `AI-${Date.now()}`,
         sender: 'assistant',
@@ -119,7 +124,7 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
         }
       };
       setMessages((prev) => [...prev, aiResponse]);
-    }, 600);
+    }, 800);
   };
 
   const handleCopy = (id: string, text: string) => {
@@ -134,7 +139,7 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
       <div className="view-header-row">
         <div className="view-heading-group">
           <h1 className="view-title">
-            <Bot size={22} color="var(--color-secondary)" />
+            <Bot size={24} color="var(--color-secondary)" />
             <span>AI Copilot: SOC Decision Intelligence Assistant</span>
             <span className="brand-badge">Autonomous Twin Reasoning</span>
           </h1>
@@ -163,7 +168,7 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
             {messages.map((msg) => (
               <div key={msg.id} className={`copilot-message-bubble ${msg.sender}`}>
                 <div className={`copilot-avatar ${msg.sender === 'user' ? 'user-avatar' : ''}`}>
-                  {msg.sender === 'assistant' ? <Bot size={16} /> : 'AM'}
+                  {msg.sender === 'assistant' ? <Bot size={18} /> : 'AM'}
                 </div>
 
                 <div className="copilot-bubble-body">
@@ -172,14 +177,16 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      marginBottom: '6px',
+                      marginBottom: '8px',
                       fontSize: '11px',
                       color: msg.sender === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--color-text-muted)'
                     }}
                   >
-                    <span>{msg.sender === 'assistant' ? 'CYGUIN Decision Intelligence' : 'Alex Morgan (SOC)'}</span>
+                    <span style={{ fontWeight: 600 }}>
+                      {msg.sender === 'assistant' ? 'CYGUIN Decision Intelligence' : 'Alex Morgan (SOC)'}
+                    </span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span>{msg.time}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)' }}>{msg.time}</span>
                       {msg.sender === 'assistant' && (
                         <button
                           onClick={() => handleCopy(msg.id, msg.text)}
@@ -192,34 +199,34 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                     </div>
                   </div>
 
-                  <div style={{ whiteSpace: 'pre-line', fontSize: '13px', lineHeight: 1.5 }}>
+                  <div style={{ whiteSpace: 'pre-line', fontSize: '13px', lineHeight: 1.55 }}>
                     {msg.text}
                   </div>
 
                   {msg.actionableContext && (
                     <div
                       style={{
-                        marginTop: '12px',
-                        padding: '10px 12px',
-                        backgroundColor: 'rgba(0, 229, 255, 0.08)',
-                        border: '1px solid rgba(0, 229, 255, 0.2)',
+                        marginTop: '14px',
+                        padding: '12px 14px',
+                        backgroundColor: 'rgba(0, 229, 255, 0.06)',
+                        border: '1px solid rgba(0, 229, 255, 0.25)',
                         borderRadius: 'var(--radius-md)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         flexWrap: 'wrap',
-                        gap: '8px'
+                        gap: '10px'
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Zap size={13} color="var(--color-secondary)" />
-                        <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: 600 }}>
+                        <Zap size={14} color="var(--color-secondary)" />
+                        <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 700 }}>
                           Target: {msg.actionableContext.target}
                         </span>
                       </div>
                       <button
                         className="btn-primary"
-                        style={{ padding: '4px 10px', fontSize: '11px' }}
+                        style={{ padding: '5px 12px', fontSize: '11px' }}
                         onClick={() => onNavigate('simulation-lab')}
                       >
                         <Play size={11} />
@@ -230,13 +237,26 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                 </div>
               </div>
             ))}
+
+            {isThinking && (
+              <div className="copilot-message-bubble assistant">
+                <div className="copilot-avatar">
+                  <Bot size={18} className="animate-pulse-subtle" />
+                </div>
+                <div className="copilot-bubble-body" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '12px', color: 'var(--color-secondary)' }}>
+                    CYGUIN Reasoning Engine is evaluating Digital Twin telemetry...
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Quick Prompt Chips */}
           <div
             style={{
-              padding: '8px 18px',
-              backgroundColor: 'rgba(14, 21, 36, 0.5)',
+              padding: '10px 20px',
+              backgroundColor: 'rgba(9, 12, 16, 0.6)',
               borderTop: '1px solid var(--color-border-subtle)',
               display: 'flex',
               alignItems: 'center',
@@ -249,8 +269,8 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                 key={pIdx}
                 onClick={() => setInputText(p)}
                 style={{
-                  padding: '4px 10px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  padding: '5px 12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid var(--color-border-subtle)',
                   borderRadius: 'var(--radius-full)',
                   fontSize: '11px',
@@ -259,11 +279,13 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                   transition: 'all var(--transition-fast)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 102, 255, 0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(0, 229, 255, 0.12)';
+                  e.currentTarget.style.borderColor = 'var(--color-secondary)';
                   e.currentTarget.style.color = '#ffffff';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.borderColor = 'var(--color-border-subtle)';
                   e.currentTarget.style.color = 'var(--color-text-secondary)';
                 }}
               >
@@ -284,33 +306,33 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
                 if (e.key === 'Enter') handleSend();
               }}
             />
-            <button className="btn-primary" onClick={handleSend} style={{ padding: '9px 14px' }}>
+            <button className="btn-primary" onClick={handleSend} style={{ padding: '10px 16px' }}>
               <Send size={15} />
             </button>
           </div>
         </div>
 
         {/* Right Context & Telemetry Cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div className="glass-card" style={{ padding: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          <div className="glass-card" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
               <Sparkles size={16} color="var(--color-secondary)" />
-              <span style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff' }}>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.01em' }}>
                 Active Telemetry Context
               </span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>Enterprise:</span>
-                <span style={{ fontWeight: 600, color: '#ffffff' }}>{ORG_METADATA.name}</span>
+                <span style={{ fontWeight: 700, color: '#ffffff' }}>{ORG_METADATA.name}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>Monitored Nodes:</span>
-                <span style={{ fontFamily: 'var(--font-mono)' }}>135 (100% Online)</span>
+                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-status-healthy)' }}>135 (100% Online)</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>Digital Twin Model:</span>
-                <span style={{ color: 'var(--color-secondary)' }}>CYGUIN-Twin-v2.4</span>
+                <span style={{ color: 'var(--color-secondary)', fontFamily: 'var(--font-mono)' }}>CYGUIN-Twin-v2.4</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>Memory Twin Cache:</span>
@@ -319,59 +341,62 @@ Based on real-time telemetry from **${ORG_METADATA.name}** (120 Endpoints, 15 Se
             </div>
           </div>
 
-          <div className="glass-card" style={{ padding: '16px' }}>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-text-muted)', marginBottom: '10px' }}>
+          <div className="glass-card" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-text-muted)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               QUICK INVESTIGATION TARGETS
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div
                 style={{
-                  padding: '8px 10px',
-                  backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                  padding: '10px 12px',
+                  backgroundColor: 'rgba(255, 77, 87, 0.08)',
+                  border: '1px solid rgba(255, 77, 87, 0.2)',
                   borderRadius: 'var(--radius-md)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '10px',
                   cursor: 'pointer'
                 }}
                 onClick={() => setInputText('Analyze Kerberoasting attack path on RDS-FIN-DB')}
               >
-                <ShieldAlert size={14} color="var(--color-status-critical)" />
-                <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: 500 }}>
+                <ShieldAlert size={15} color="var(--color-status-critical)" />
+                <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>
                   RDS-FIN-DB (10.200.20.5)
                 </span>
               </div>
               <div
                 style={{
-                  padding: '8px 10px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  padding: '10px 12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid var(--color-border-subtle)',
                   borderRadius: 'var(--radius-md)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '10px',
                   cursor: 'pointer'
                 }}
                 onClick={() => setInputText('Inspect IAM Role Prod-EC2-Worker')}
               >
-                <Server size={14} color="var(--color-primary)" />
-                <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: 500 }}>
+                <Server size={15} color="var(--color-primary)" />
+                <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>
                   AWS Prod VPC IAM Escalation
                 </span>
               </div>
               <div
                 style={{
-                  padding: '8px 10px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  padding: '10px 12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid var(--color-border-subtle)',
                   borderRadius: 'var(--radius-md)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '10px',
                   cursor: 'pointer'
                 }}
                 onClick={() => setInputText('Check VPN Gateway egress beaconing')}
               >
-                <Network size={14} color="var(--color-status-warning)" />
-                <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: 500 }}>
+                <Network size={15} color="var(--color-status-warning)" />
+                <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>
                   ABC-VPN-GW01 (172.16.0.1)
                 </span>
               </div>

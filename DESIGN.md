@@ -1,53 +1,53 @@
 ---
-name: CYGUIN Enterprise Security Design System
+name: CYGUIN Mission-Critical Cyber OS Design System
 colors:
-  surface: '#080c14'
-  surface-dim: '#060910'
-  surface-bright: '#101726'
-  surface-container-lowest: '#04060a'
-  surface-container-low: '#0a101b'
-  surface-container: '#0e1524'
-  surface-container-high: '#131d30'
-  surface-container-highest: '#1a263d'
+  surface: '#050608'
+  surface-dim: '#030406'
+  surface-bright: '#0e131a'
+  surface-container-lowest: '#020304'
+  surface-container-low: '#070a0e'
+  surface-container: '#090c10'
+  surface-container-high: '#11161d'
+  surface-container-highest: '#151b24'
   on-surface: '#f1f5f9'
   on-surface-variant: '#94a3b8'
   inverse-surface: '#f8fafc'
-  inverse-on-surface: '#0f172a'
-  outline: '#1e293b'
-  outline-variant: '#334155'
-  surface-tint: '#0066ff'
-  primary: '#0066ff'
+  inverse-on-surface: '#050608'
+  outline: 'rgba(255, 255, 255, 0.05)'
+  outline-variant: 'rgba(0, 229, 255, 0.15)'
+  surface-tint: '#00e5ff'
+  primary: '#2d7cff'
   on-primary: '#ffffff'
-  primary-container: '#0f2759'
+  primary-container: 'rgba(45, 124, 255, 0.15)'
   on-primary-container: '#93c5fd'
   inverse-primary: '#60a5fa'
   secondary: '#00e5ff'
-  on-secondary: '#041724'
-  secondary-container: '#083344'
+  on-secondary: '#020e14'
+  secondary-container: 'rgba(0, 229, 255, 0.12)'
   on-secondary-container: '#67e8f9'
   tertiary: '#38bdf8'
-  on-tertiary: '#081726'
-  tertiary-container: '#0c2d48'
+  on-tertiary: '#020a12'
+  tertiary-container: 'rgba(56, 189, 248, 0.12)'
   on-tertiary-container: '#bae6fd'
-  error: '#ef4444'
+  error: '#ff4d57'
   on-error: '#ffffff'
-  error-container: '#450a0a'
+  error-container: 'rgba(255, 77, 87, 0.15)'
   on-error-container: '#fca5a5'
-  warning: '#f59e0b'
-  on-warning: '#ffffff'
-  warning-container: '#451a03'
+  warning: '#ffc83d'
+  on-warning: '#050608'
+  warning-container: 'rgba(255, 200, 61, 0.15)'
   on-warning-container: '#fde68a'
-  risk-medium: '#f97316'
+  risk-medium: '#ff7d3b'
   on-risk-medium: '#ffffff'
-  risk-medium-container: '#431407'
+  risk-medium-container: 'rgba(255, 125, 59, 0.15)'
   on-risk-medium-container: '#fed7aa'
-  success: '#10b981'
-  on-success: '#ffffff'
-  success-container: '#022c22'
+  success: '#15e88a'
+  on-success: '#021208'
+  success-container: 'rgba(21, 232, 138, 0.15)'
   on-success-container: '#a7f3d0'
-  background: '#080c14'
+  background: '#050608'
   on-background: '#f1f5f9'
-  surface-variant: '#121b2d'
+  surface-variant: '#11161d'
 typography:
   display:
     fontFamily: Outfit
@@ -101,11 +101,11 @@ typography:
     lineHeight: '16px'
     letterSpacing: -0.01em
 rounded:
-  sm: 0.25rem
+  sm: 0.375rem
   DEFAULT: 0.5rem
   md: 0.75rem
   lg: 1rem
-  xl: 1.25rem
+  xl: 1.125rem
   full: 9999px
 spacing:
   container-max: 1600px
@@ -120,45 +120,24 @@ spacing:
   stack-xl: 32px
 ---
 
-# Design System: CYGUIN Enterprise Cybersecurity Intelligence Platform
+# Design System: CYGUIN Enterprise Cybersecurity Operating System
 
 ## 1. Visual Theme & Atmosphere
-A high-agency, executive-grade Security Operations Center cockpit engineered for decision intelligence. The atmosphere communicates clinical authority, real-time threat perception, and unshakeable institutional trust. The visual grammar draws inspiration from CrowdStrike Falcon, Microsoft Defender XDR, Cortex XDR, and Wiz — characterized by deep charcoal canvas layers, high-contrast typography, sharp telemetry metrics, and subtle 1px border highlights without neon oversaturation or gaming tropes.
+A stealth, mission-critical cybersecurity operating system tailored for military-grade and tier-1 enterprise Security Operations Centers (inspired by Microsoft Defender XDR, CrowdStrike Falcon, Palo Alto Cortex, SentinelOne, Wiz, and Google Chronicle). The visual atmosphere communicates absolute precision, instant threat recognition, and tactical calm.
 
 ## 2. Color Palette & Roles
-- **Canvas Charcoal (`#080C14`)** — The ultra-deep foundation background for low eye fatigue during extended SOC shifts.
-- **Panel Surface (`#0E1524`)** — The structural container surface for sidebars, top nav, and primary section wrappers.
-- **Card Surface (`#121B2D`)** — Main content cards with subtle 1px structural borders.
-- **Card Elevated (`#172338`)** — Elevated cards, interactive modals, flyouts, and dropdowns.
-- **Cyber Blue (`#0066FF`)** — Primary brand anchor for primary actions, active navigation tabs, and key focus rings.
-- **Electric Cyan (`#00E5FF`)** — Secondary telemetry accent for AI Twin insights, decision simulations, and attack path highlights.
-- **Emerald Green / Healthy (`#10B981`)** — Clear operational health, passing compliance controls, and secured assets.
-- **Amber Yellow / Warning (`#F59E0B`)** — Low-priority anomalies, pending firmware patches, and policy drifts.
-- **Vibrant Orange / Medium Risk (`#F97316`)** — Elevated vulnerability posture and suspicious lateral movements.
-- **Crimson Red / Critical (`#EF4444`)** — Immediate incident triage, confirmed breach attempts, and active exploit vectors.
+- **Primary Canvas (`#050608`)** — Pitch black foundation that eliminates eye strain and makes cyber telemetry pop.
+- **Secondary Surface (`#090C10`)** — Subtle structural container background.
+- **Cards & Modules (`#11161D`)** — Modern elevated card containers with ultra-thin 1px borders.
+- **Floating Panels & Drawers (`#151B24`)** — Floating overlays and inspection sheets.
+- **Electric Cyan (`#00E5FF`)** — Primary telemetry accent, laser lines, moving packet flows, and AI reasoning indicators.
+- **Cyber Blue (`#2D7CFF`)** — Action trigger buttons and primary interactive nodes.
+- **Neon Emerald / Healthy (`#15E88A`)** — Secured assets, passing compliance controls, and operational health.
+- **Vibrant Amber / Warning (`#FFC83D`)** — Policy drifts, unpatched CVEs, and anomalous probes.
+- **Crimson Laser / Critical (`#FF4D57`)** — Active breach vectors, live lateral movements, and critical alerts.
 
-## 3. Typography Rules
-- **Display & Headings:** `Outfit` and `Plus Jakarta Sans` with tight tracking (`-0.02em`) for crisp, executive-grade legibility.
-- **Body & Content:** `Plus Jakarta Sans` (13px–14px) with relaxed leading for dense, scannable data layouts.
-- **Security Telemetry & Monospace:** `JetBrains Mono` for IP addresses (`10.200.4.12`), CVE identifiers (`CVE-2024-38856`), SHA-256 hashes, timestamps, and JSON payloads.
-- **Banned:** Generic serif fonts, `Inter` default templates, unstructured letter-spacing.
-
-## 4. Component Stylings
-- **Cards:** Crisp 12px–16px rounded corners (`rounded-lg` / `rounded-xl`) with 1px border (`rgba(255, 255, 255, 0.08)` / `rgba(56, 189, 248, 0.14)`). Soft ambient dark shadow (`0 4px 20px -2px rgba(0, 0, 0, 0.45)`).
-- **Status Badges:** Pill-shaped (`rounded-full`) with 10–15% background tint, 1px border in matching status color, and a live glowing ping indicator dot.
-- **Metric Cards:** Dual-layer visual hierarchy with large prominent metric numbers, trend sparkline/indicator, and small secondary caption.
-- **Buttons:** Solid Cyber Blue (`#0066FF`) with crisp white text for primary actions; Ghost outline with subtle hover lift for secondary actions.
-- **Tables & Lists:** High-density scannable rows with alternating subtle hover highlight (`#1A263D`), monospace metadata columns, and 1-click triage quick actions.
-- **Modals & Drawers:** High-contrast dark backdrop blur (`backdrop-blur-md`), sliding from right for incident inspection and scenario sandboxing.
-
-## 5. Layout Principles
-- Persistent left sidebar (260px expanded, 76px collapsed) with clear functional categorization: Overview, Threat Operations, Intelligence Twins, AI & Decision Lab, Management.
-- Top navigation bar (64px) with persistent breadcrumbs, SOC DEFCON status, `⌘K` Omnibar Search, organization switcher (`ABC Technologies Pvt Ltd`), and Sentinel telemetry stream status.
-- Responsive grid container (max 1600px) with 16px–24px gutters.
-
-## 6. Anti-Patterns (Forbidden)
-- ❌ No gaming UI or neon glowing wireframes.
-- ❌ No terminal green-on-black hacker aesthetics.
-- ❌ No generic bootstrap light themes.
-- ❌ No generic placeholder names ("Acme Corp", "John Doe"); use **ABC Technologies Pvt Ltd** and realistic SOC roles.
-- ❌ No fabricated, meaningless numbers; all metrics must reflect the realistic enterprise footprint (250 employees, 120 endpoints, 15 servers, AWS cloud).
+## 3. Micro-Interactions & Motion
+- **Packet Flow Animations:** Animated SVG stroke-dash dashes and travelling photons along network edges.
+- **Radar Sweeps:** Rotating sensor sweep halos on telemetry monitors.
+- **Live Status LEDs:** Micro-pulsing glow circles with 3-layer radial blur.
+- **Interactive Topology:** 3D-depth node elevation on hover with dynamic blast-radius highlighting.

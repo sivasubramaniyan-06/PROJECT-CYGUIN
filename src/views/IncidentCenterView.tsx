@@ -6,7 +6,10 @@ import {
   Play,
   X,
   Zap,
-  Radio
+  Radio,
+  Tag,
+  FileCode,
+  Crosshair
 } from 'lucide-react';
 import { RouteId, Incident } from '../types';
 import { INCIDENTS_DATA, ORG_METADATA } from '../data/organizationData';
@@ -64,8 +67,8 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
       <div className="view-header-row">
         <div className="view-heading-group">
           <h1 className="view-title">
-            <ShieldAlert size={22} color="var(--color-status-critical)" />
-            <span>Incident Center & Attack Triage</span>
+            <ShieldAlert size={24} color="var(--color-status-critical)" />
+            <span>Incident Center & Attack Triage Queue</span>
             <span className="brand-badge">Automated Blast-Radius Analysis</span>
           </h1>
           <p className="view-description">
@@ -88,7 +91,7 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '12px'
+          gap: '14px'
         }}
       >
         <Tabs tabs={filterTabs} activeTab={activeTab} onChange={setActiveTab} />
@@ -99,11 +102,11 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '6px 12px',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              padding: '7px 14px',
+              backgroundColor: 'rgba(255, 255, 255, 0.03)',
               border: '1px solid var(--color-border-subtle)',
               borderRadius: 'var(--radius-md)',
-              width: '280px'
+              width: '300px'
             }}
           >
             <Search size={14} color="var(--color-text-muted)" />
@@ -115,7 +118,7 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
               style={{ flex: 1, fontSize: '12px', color: '#ffffff' }}
             />
           </div>
-          <button className="btn-secondary" style={{ padding: '6px 10px' }}>
+          <button className="btn-secondary" style={{ padding: '7px 12px' }}>
             <SlidersHorizontal size={14} />
           </button>
         </div>
@@ -152,7 +155,7 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
                     </div>
                   </td>
                   <td>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#ffffff' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#ffffff', fontWeight: 600 }}>
                       {inc.targetEntity}
                     </span>
                   </td>
@@ -167,23 +170,25 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
                       style={{
                         fontFamily: 'var(--font-mono)',
                         fontSize: '11px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        padding: '2px 6px',
-                        borderRadius: '4px'
+                        backgroundColor: 'rgba(0, 229, 255, 0.06)',
+                        border: '1px solid rgba(0, 229, 255, 0.2)',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        color: 'var(--color-secondary)'
                       }}
                     >
                       {inc.mitreTechnique}
                     </span>
                   </td>
                   <td>
-                    <span style={{ fontSize: '11px', color: 'var(--color-status-critical)', fontWeight: 600 }}>
+                    <span style={{ fontSize: '11px', color: 'var(--color-status-critical)', fontWeight: 700 }}>
                       {inc.slaMinutesRemaining}m remaining
                     </span>
                   </td>
                   <td>
                     <button
                       className="btn-primary"
-                      style={{ padding: '4px 10px', fontSize: '11px' }}
+                      style={{ padding: '5px 12px', fontSize: '11px' }}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleRowClick(inc);
@@ -205,7 +210,7 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
           <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
             <div className="drawer-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-secondary)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-secondary)', fontWeight: 700 }}>
                   {selectedIncident.id}
                 </span>
                 <StatusBadge status={selectedIncident.severity} />
@@ -219,13 +224,13 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
             </div>
 
             <div className="drawer-body">
-              <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#ffffff' }}>
+              <h2 style={{ fontSize: '17px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.01em' }}>
                 {selectedIncident.title}
               </h2>
 
               {/* Kill Chain Progression */}
-              <div className="glass-card" style={{ padding: '14px 16px' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', marginBottom: '8px' }}>
+              <div className="glass-card" style={{ padding: '16px 18px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   CYBER KILL CHAIN PROGRESSION
                 </div>
                 <div className="killchain-timeline">
@@ -247,29 +252,30 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
 
               {/* Threat Narrative & Root Cause */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   THREAT DESCRIPTION & ROOT CAUSE
                 </div>
-                <div style={{ padding: '12px', backgroundColor: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-md)', fontSize: '12px', lineHeight: 1.5 }}>
+                <div style={{ padding: '14px', backgroundColor: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)', fontSize: '12px', lineHeight: 1.55 }}>
                   {selectedIncident.description}
                 </div>
-                <div style={{ padding: '12px', backgroundColor: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: 'var(--radius-md)', fontSize: '12px', color: '#ffb3b3', lineHeight: 1.5 }}>
+                <div style={{ padding: '14px', backgroundColor: 'rgba(255, 77, 87, 0.08)', border: '1px solid rgba(255, 77, 87, 0.25)', borderRadius: 'var(--radius-md)', fontSize: '12px', color: '#ffb3b3', lineHeight: 1.55 }}>
                   <strong>Root Cause:</strong> {selectedIncident.rootCause}
                 </div>
               </div>
 
-              {/* Affected Assets */}
+              {/* Impacted Assets */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   IMPACTED ASSETS ({selectedIncident.affectedAssets.length})
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {selectedIncident.affectedAssets.map((asset, aIdx) => (
                     <span
                       key={aIdx}
                       style={{
-                        padding: '4px 8px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                        padding: '5px 10px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid var(--color-border-subtle)',
                         borderRadius: 'var(--radius-sm)',
                         fontFamily: 'var(--font-mono)',
                         fontSize: '11px',
@@ -285,20 +291,21 @@ export const IncidentCenterView: React.FC<IncidentCenterViewProps> = ({
               {/* Recommended Action */}
               <div
                 style={{
-                  padding: '14px',
-                  backgroundColor: 'rgba(0, 102, 255, 0.12)',
-                  border: '1px solid rgba(0, 102, 255, 0.3)',
+                  padding: '16px',
+                  backgroundColor: 'rgba(45, 124, 255, 0.12)',
+                  border: '1px solid rgba(45, 124, 255, 0.3)',
                   borderRadius: 'var(--radius-md)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '6px'
+                  gap: '8px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-secondary)', fontSize: '12px', fontWeight: 600 }}>
-                  <Zap size={14} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-secondary)', fontSize: '12px', fontWeight: 700 }}>
+                  <Zap size={15} />
                   <span>AI DECISION INTELLIGENCE RECOMMENDATION</span>
                 </div>
-                <p style={{ fontSize: '12px', color: '#ffffff', lineHeight: 1.4 }}>
+                <p style={{ fontSize: '12px', color: '#ffffff', lineHeight: 1.5 }}>
                   {selectedIncident.recommendedAction}
                 </p>
               </div>

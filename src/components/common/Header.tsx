@@ -5,7 +5,8 @@ import {
   Sparkles,
   Building2,
   ChevronDown,
-  Radio
+  Radio,
+  ShieldAlert
 } from 'lucide-react';
 import { RouteId } from '../../types';
 import { ORG_METADATA } from '../../data/organizationData';
@@ -38,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
       case 'simulation-lab':
         return 'Simulation Lab';
       case 'assets':
-        return 'Asset Inventory';
+        return 'Asset Matrix';
       case 'reports':
         return 'Compliance & Risk Reports';
       case 'settings':
@@ -79,8 +80,8 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="header-right">
         {/* Sentinel Live Status */}
         <div className="telemetry-status-pill" title="Sentinel Detection Engine Active">
-          <span className="telemetry-indicator-dot" />
-          <Radio size={12} />
+          <span className="telemetry-indicator-dot animate-led-healthy" />
+          <Radio size={12} className="animate-pulse-subtle" />
           <span>Sentinel 12ms</span>
         </div>
 
@@ -102,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
           title="Security Notifications"
         >
           <Bell size={16} />
-          <span className="notification-badge-dot" />
+          <span className="notification-badge-dot animate-led-critical" />
         </button>
 
         {/* AI Copilot Quick Button */}
@@ -118,21 +119,22 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Profile Avatar */}
         <div
           style={{
-            width: '32px',
-            height: '32px',
+            width: '34px',
+            height: '34px',
             borderRadius: 'var(--radius-full)',
-            background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-            border: '1px solid var(--color-border-medium)',
+            background: 'linear-gradient(135deg, #151b24 0%, #0d1218 100%)',
+            border: '1.5px solid var(--color-border-medium)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '11px',
             fontWeight: 700,
             color: '#ffffff',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)'
           }}
           onClick={() => onNavigate('settings')}
-          title="Alex Morgan (Lead SOC Analyst)"
+          title="Alex Morgan (Lead SOC Commander)"
         >
           AM
         </div>
